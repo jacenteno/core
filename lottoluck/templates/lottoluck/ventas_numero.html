@@ -1,0 +1,208 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container mt-4">
+    
+    <h1 class="display-4 text-center mb-4">Productos</h1>
+    <div class="box-element">
+     <!-- Contenedor para el contenido del carrito -->
+     <div id="carrito-container"></div>
+     <div class="float-right">
+        <!-- Enlace al PDF alineado a la derecha -->
+        {% if messages %}
+            <div class="messages">
+                <ul>
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                            {{ message }}
+                            {% if pdf_link %}
+                            <a href="{{ pdf_link }}" class="btn btn-danger btn-sm float-right" target="_blank">
+                                PDF <i class="fas fa-download"></i>
+                              </a>
+                            {% endif %}
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+       
+    </div>
+     <!-- Paginaccion -->
+    
+    <div class="row justify-content-center">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+    
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1" aria-label="Primera página">
+                        <span aria-hidden="true">«</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Anterior">
+                        <span aria-hidden="true">‹</span>
+                    </a>
+                </li>
+                {% endif %}
+    
+                {% if page_obj.number > 3 %}
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+                {% endif %}
+    
+                {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                <li class="page-item active">
+                    <span class="page-link">{{ i }}</span>
+                </li>
+                {% elif i > page_obj.number|add:'-2' and i < page_obj.number|add:'2' %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+    
+                {% if page_obj.number < page_obj.paginator.num_pages|add:'-2' %}
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+                {% endif %}
+    
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Siguiente">
+                        <span aria-hidden="true">›</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Última página">
+                        <span aria-hidden="true">»</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    </div>
+    
+   
+    <div class="row">
+        {% for item in page_obj %}
+            <div class="col-md-2">
+                <div class="card mb-4 shadow-sm">
+                    <div class="custom-image-container">
+                        <div class="product-image">
+                            {% if item.imagen %}
+                            <img src="{{ item.imagen.url }}" class="card-img-top custom-background-image img-fluid hover-scale hover-shadow" alt="{{ numero.numero }}">
+                            {% else %}
+                            <img src="{% static 'images/img/default/03.png' %}" alt="..." class="card-img-top">
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="product-info">
+                            
+                            <h5 class="card-title"><strong>{{ item.numero }} </strong></h5>
+                            <p class="card-text">{{ item.numero_a_palabra }}</p>
+                            <p class="card-text">$ {{ item.costo|floatformat:2}}</p>
+                        </div>
+                        <div class="product-action">
+                            <p class="card-text">Existencia {{ item.limite }}</p>
+                            <form method="get" action="{% url 'add' item.id 1 %}">
+                                <div class="quantity">
+                                    <label for="quantitySelect">Cantidad:</label>
+                                    <select id="quantitySelect" class="form-control" name="cantidad">
+                                        <option value="1">1</option>
+                                        <option value="2">2</option>
+                                        <option value="3">3</option>
+                                        <option value="4">4</option>
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="15">15</option>
+                                        <option value="20">20</option>
+                                        <option value="25">25</option>
+                                        <option value="30">30</option>
+                                        <option value="35">35</option>
+                                    </select>
+                                </div>
+                                
+                                <button type="submit" class="btn btn-warning btn-block">
+                                    <i class="fa fa-shopping-cart"></i> Comprar
+                                </button>
+                            </form>
+                           
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+     
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <!-- Agrega un div para mostrar el mensaje -->
+            <div id="mensaje" class="alert alert-success" style="display: none;">Producto añadido al carrito</div>
+        </div>
+    </div>
+    <!-- Paginaccion -->
+    <div class="row justify-content-center">
+        <nav aria-label="Page navigation">
+            <ul class="pagination">
+    
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                    <a class="page-link" href="?page=1" aria-label="Primera página">
+                        <span aria-hidden="true">«</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Anterior">
+                        <span aria-hidden="true">‹</span>
+                    </a>
+                </li>
+                {% endif %}
+    
+                {% if page_obj.number > 3 %}
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+                {% endif %}
+    
+                {% for i in page_obj.paginator.page_range %}
+                {% if page_obj.number == i %}
+                <li class="page-item active">
+                    <span class="page-link">{{ i }}</span>
+                </li>
+                {% elif i > page_obj.number|add:'-2' and i < page_obj.number|add:'2' %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+                </li>
+                {% endif %}
+                {% endfor %}
+    
+                {% if page_obj.number < page_obj.paginator.num_pages|add:'-2' %}
+                <li class="page-item disabled">
+                    <span class="page-link">...</span>
+                </li>
+                {% endif %}
+    
+                {% if page_obj.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Siguiente">
+                        <span aria-hidden="true">›</span>
+                    </a>
+                </li>
+                <li class="page-item">
+                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Última página">
+                        <span aria-hidden="true">»</span>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+    
+</div>
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- Contenido principal del panel de control -->
+    <div class="container mt-4">
+        <div class="row">
+            <!-- Primer Card -->
+            <div class="col-md-4">
+                <div class="container">
+                    <div class="row-md-6">
+                        <div class="card border border-info shadow-0 mb-3" style="max-width: 18rem;">
+                            <div class="card-header">
+                                <strong>Sorteo </strong> {{ myjson.nombredelsorteo}}
+                            </div>
+           
+                            <img src="{% static 'images/img/default/lottoluckLogo.png' %}" alt="lottoLuck" class="card-img-top">
+   
+                            <div class="card-body text-success">
+                                <ul class="list-group list-group-flush">
+                                    {{ myjson.fecha }} Sorteo No.{{ myjson.referencia }}
+                                    <li class="list-group-item">
+                                        <strong>PRIMER PREMIO </strong> 
+                                        <strong style="font-size: 24px; width: 130px; display: inline-block;">{{ myjson.I_premio }}</strong>
+                                    </li>
+                                    <div class="row">
+                                        <li class="list-group-item"><strong>Letra:</strong> {{ myjson.letras }}</li>
+                                        <li class="list-group-item"><strong>Serie:</strong> {{ myjson.serie }}</li>
+                                        <li class="list-group-item"><strong>Folio:</strong> {{ myjson.folio }}</li>
+                                    </div>
+                                    <li class="list-group-item">
+                                        <strong>SEGUNDO PREMIO</strong>
+                                        <strong style="font-size: 24px; width: 130px; display: inline-block;">{{ myjson.II_premio }}</strong>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>TERCER  PREMIO</strong> 
+                                        <strong style="font-size: 24px; width: 130px; display: inline-block;">{{ myjson.III_premio }}</strong>
+                                    </li>
+                                </ul>
+                                <div class="card-footer bg-transparent border-success">LNB</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Segundo Card -->
+            <div class="col-md-6">
+                <div class="card border border-success shadow-0 mb-3" style="max-width: 18rem;">
+                    <div class="card-header">Resumen de Actividades</div>
+                        <div class="card-body text-success">
+                            <h5 class="card-title">Clientes {{ ctes }}</h5>
+                            <p class="card-text">Vendedores {{ vend }} </p>
+                            <p class="card-text">Tipo de Sorteo {{ sorteo }} </p>
+                            <p class="card-text">Casa Grande {{ casag }}</p>
+                        </div>
+                    <div class="card-footer bg-transparent border-success">...</div>
+                </div>
+            </div>
+        <div class="col-md-4">
+            <div class="card border border-success shadow-0 mb-3" style="max-width: 18rem;"></div>
+                <div class="card-header"></div>
+                    <canvas id="myChart" width="200" height="300"></canvas>
+                    <div class="card-body text-success"></div>
+                    <p class="card-text">Actividades de lottoLuck </p>
+                    
+                      <!-- Contenedor del gráfico -->
+                     
+                    </div>
+                    
+                </div>
+                <div class="card-footer bg-transparent border-success">...</div>       
+            </div>
+        </div>
+        </div>
+        
+    </div>
+
+    <!-- Script para crear el gráfico -->
+    <script>
+        // Datos ficticios para el gráfico
+          // Obtén el valor de cantidad_clientes desde el contexto de la plantilla
+        var cClientes =  {{ ctes }};
+        var cVendedores= {{ vend }};
+        var cTiposorteo= {{ sorteo }};
+        var casag = {{ casag }};
+        var data = {
+            labels: ["T.Ctes", "T.Vend","TipoSorteo","casaGrande"],
+            datasets: [{
+                data: [cClientes, cVendedores,cTiposorteo,casag], // Cantidad ficticia de clientes y ventas
+                borderColor: "#013A20",
+                backgroundColor: ["#013A20", "#478C5C","#BACC81","#CDD193"],
+                borderWidth: .05,
+                fill: true, // Rellenar el área bajo la línea
+            }],
+        };
+        
+
+        var options = {
+            responsive: true,
+            animation: {
+                duration: 2000, // Duración de la animación en milisegundos
+                easing: 'easeInOutQuart', // Función de animación
+            },
+        };
+
+        // Obtén el contexto del lienzo del gráfico
+        var ctx = document.getElementById("myChart").getContext("2d");
+
+        // Crea el gráfico de barras
+        var myChart = new Chart(ctx, {
+            type: "pie",
+            data: data,
+            options: options,
+        });
+    </script>
+{% endblock %}

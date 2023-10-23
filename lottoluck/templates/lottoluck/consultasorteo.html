@@ -1,0 +1,117 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3 class="display-6 text-center mb-4">Listado de Ventas - Sorteo</h3>
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body">
+                    <form action="{% url 'consultasorteo' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="input-group">
+                                {{ fechasorteo }}
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-success btn-sm float-right">
+                                        <i class="fas fa-search"></i> Consultar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card border-0 shadow-lg">
+                <div class="card-header bg-secondary text-white">
+                    <div class="row justify-content-center">
+                        <div class="row-md-4 text-center">
+                            <strong><span class="valor-grande">Cant. Compra</span></strong>
+                            <span class="cart-total total h1">{{ totalqty|floatformat:0}}</span>
+                            <strong><span class="valor-grande">Venta TOTAL:</span></strong>
+                            <span class="cart-total total h1">${{ totalventa|floatformat:2 }}</span>
+                      
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table thead-dark datatable">
+                            <thead>
+                                <tr>
+                                    <th>Número</th>
+                                    <th>Cant.Venta</th>
+                                    <th class="text-right text-success" style="font-size: 16px;">$TOTAL</th>
+              
+                                    <!-- Agrega encabezados para los premios aquí -->
+                                    <th class="text-right">Premio 1</th>
+                                    <th class="text-right">Premio 2</th>
+                                    <th class="text-right">Premio 3</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in resumen %}
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'detalle_cliente' numero=item.0 id_sorteo=id_sorteo.id fecha_sorteo=fecha %}" class="text-success">
+                                                <i class="fas fa-icono-aqui"></i> {{ item.0 }}
+                                            </a>
+                                        </td>
+                                        <td>{{ item.1 | floatformat:0 }}</td> <!-- Cantidad vendida -->
+                                        <td class="text-right text-success" style="font-size: 16px;">{{ item.2 | floatformat:2 }}</td> <!-- Monto vendido -->
+                                        <!-- Agrega celdas para los premios aquí -->
+                                        <td class="text-right text-danger">{{ item.3 | floatformat:2 }}</td> <!-- Premio 1 -->
+                                        <td class="text-right text-danger">{{ item.4 | floatformat:2 }}</td> <!-- Premio 2 -->
+                                        <td class="text-right text-danger">{{ item.5 | floatformat:2 }}</td> <!-- Premio 3 -->
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer bg-secondary text-white">
+                    <div class="row justify-content-between">
+                        <div class="col-md-4">
+                            <strong><span class="valor-grande">No.Vendidos:</span></strong>
+                            <span class="cart-total cantidad-total ">{{numeroitems|floatformat:0 }}</span>
+                        </div>
+                        <div class="col-md-4">
+                            <strong><span class="valor-grande">ID Sorteo:</span></strong>
+                            <span class="cart-total cantidad-total ">{{ id_sorteo.id|floatformat:0 }} -- {{ fecha }}</span>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <span class="cart-total total h4">
+                                {% if pdf_content %}
+                                <form action="{% url 'listapdf' pdf_content=pdf_content %}" method="get">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="pdf_content" value="{{ pdf_content|safe }}">
+                                    <div class="form-group">
+                                        <div class="input-group">
+                                            <div class="input-group-append">
+                                                <button type="submit" class="btn btn-success btn-sm float-right">
+                                                    <i class="fas fa-file"></i> Lista PDF
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                {% endif %}
+                                
+                        </div>
+                        
+                    </div>
+                </div>
+            
+                <br>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        $('.datatable').DataTable();
+    });
+</script>
+{% endblock %}

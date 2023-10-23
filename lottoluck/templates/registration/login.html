@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Inicio - lottoLuck</title>
+    <!-- Estilos personalizados -->
+    <style>
+        body {
+            background-color: #66707a; /* Color de fondo oscuro */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.2);
+        }
+        .card-header {
+            background-color: #007bff; /* Color azul brillante */
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        .card-body {
+            padding: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .btn-primary {
+            background-color: #007bff; /* Color azul brillante */
+            border: none;
+            padding: 12px 24px; /* Aumentar el tamaño del botón */
+        }
+        .btn-primary:hover {
+            background-color: #0056b3; /* Color azul oscuro al pasar el mouse */
+        }
+        .btn-icon {
+            margin-right: 10px;
+        }
+        .btn-logout {
+            background-color: #dc3545; /* Color rojo */
+            border: none;
+            padding: 12px 24px;
+        }
+        .btn-logout:hover {
+            background-color: #c82333; /* Color rojo oscuro al pasar el mouse */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        {% load static %}
+                        <h1>
+                            <span> 
+                             lottoLuck
+                            </span>
+                            <img src="{% static 'images/img/default/lottoluckLogo.png' %}" alt="lottoLuck" class="custom-logo">
+  
+                        </h1> <!-- Icono de cerradura de combinación de bóveda -->
+                       
+                    </div>
+                    <div class="card-body">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                {{ form.username.label_tag }}
+                                {{ form.username }}
+                            </div>
+                            <div class="form-group">
+                                {{ form.password.label_tag }}
+                                {{ form.password }}
+                            </div>
+                            <div class="form-group text-center">
+                                <button type="submit" class="btn btn-primary btn-block"><span class="btn-icon">&#x1F680;</span> Iniciar Sesión</button> <!-- Icono de cohete -->
+                                <a href="{% url 'logout' %}" class="btn btn-logout btn-block">Salir</a> <!-- Botón de salir -->
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

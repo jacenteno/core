@@ -1,0 +1,288 @@
+.custom-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #0077B5; /* Color de borde similar a LinkedIn */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+}
+
+
+.custom-avatar:hover {
+    border-color: #00548C; /* Cambia el color del borde al hacer hover */
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+/* Efecto de fondo degradado para resaltar el avatar */
+.custom-avatar::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, #c4cbd3, transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+    z-index: -1; /* Coloca el fondo detrás del avatar */
+}
+
+.custom-avatar:hover::before {
+    opacity: 1;
+}
+
+.custom-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1px solid #92cbf0; /* Color de borde similar a LinkedIn */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+}
+.custom-logo:hover {
+    border-color: #cfebfe; /* Cambia el color del borde al hacer hover */
+    transform: scale(1.1);
+    cursor: pointer;
+}
+
+/* Efecto de fondo degradado para resaltar el avatar */
+.custom-logo::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    background: radial-gradient(circle at center, #c4cbd3, transparent);
+    opacity: 0;
+    transition: opacity 0.7s;
+    z-index: -1; /* Coloca el fondo detrás del avatar */
+}
+
+.custom-logo:hover::before {
+    opacity: 2;
+}
+
+/* Estilo por defecto para el logotipo */
+.custom-logoHeader2 {
+    max-width: 50px; /* Tamaño máximo del logotipo */
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Estilo al pasar el cursor sobre el logotipo */
+.custom-logoHeader2:hover {
+    transform: scale(0.9); /* Reducir el tamaño del logotipo al 90% al pasar el cursor sobre él */
+}
+/* Define la animación */
+@keyframes scaleAnimation {
+    0% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.9);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Aplica la animación al logotipo */
+.custom-logoHeader {
+    max-width: 60px; /* Tamaño máximo del logotipo */
+    animation: scaleAnimation 2s infinite; /* Aplica la animación de escala con una duración de 2 segundos y la hace infinita */
+}
+
+.custom-logoHeader3 {
+    max-width: 40px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+.custom-img-fixed-size {
+    width: 50px; /* Cambia el ancho a tu preferencia */
+    height: 50px; /* Cambia el alto a tu preferencia */
+    /* Puedes ajustar el valor de 'width' y 'height' según el tamaño deseado */
+}
+
+.custom-image-container {
+    text-align: center;
+    padding: 20px;
+}
+
+.custom-background-image {
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.btn-warning:hover {
+    background-color: #ffca2d;
+    border-color: #ffca2d;
+}
+
+#mensaje {
+    margin-top: 20px;
+}
+
+navbar-nav {
+    margin-right: 0;
+}
+
+/* Alinea el botón de búsqueda a la derecha en dispositivos móviles */
+@media (max-width: 991px) {
+    .navbar-collapse.collapse {
+        display: block !important;
+        order: 3;
+    }
+
+    .navbar-toggler {
+        display: none;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+        padding-left: 0;
+    }
+
+    .navbar-nav .nav-item {
+        margin-bottom: 8px;
+    }
+
+    .navbar-nav .nav-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .navbar-nav .nav-link {
+        padding-left: 0;
+    }
+
+    .navbar-collapse.collapse.show {
+        background-color: transparent;
+    }
+}
+/* Estilos para el menú lateral */
+#sidebar {
+    position: fixed;
+    height: 100%;
+    width: 250px;
+    z-index: 1;
+    padding-top: 20px;
+    background-color: #f8f9fa;
+    border-right: 1px solid #dee2e6;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+}
+
+.sidebar-header h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #343a40;
+}
+
+.nav-link {
+    color: #343a40;
+}
+
+.nav-link:hover {
+    background-color: #e9ecef;
+}
+
+/* Estilos para íconos de flecha en el menú desplegable */
+.nav-link i {
+    margin-right: 10px;
+    transition: transform 0.2s;
+}
+
+.nav-link[aria-expanded="true"] i {
+    transform: rotate(180deg);
+}
+/* Estilos para el menú lateral */
+#sidebar {
+    position: fixed;
+    height: 100%;
+    width: 250px;
+    z-index: 1;
+    padding-top: 20px;
+    background-color: #f8f9fa;
+    border-right: 1px solid #dee2e6;
+    box-shadow: 2px 0px 5px rgba(0, 0, 0, 0.1);
+    overflow-y: auto; /* Permite desplazamiento vertical si el contenido es largo */
+}
+
+/* Estilos para el contenido principal */
+#content {
+    margin-left: 250px; /* Ancho del menú lateral */
+    padding: 20px;
+}
+
+/* Agrega estilos para el footer */
+footer {
+    background-color: #343a40; /* Color de fondo del footer */
+    color: #ffffff; /* Color del texto del footer */
+    padding: 20px 0; /* Espaciado superior e inferior del footer */
+    position: relative;
+    z-index: 2; /* Coloca el footer encima del menú lateral */
+}
+
+/* Ajusta el espacio entre elementos del menú */
+.nav.flex-column .nav-link {
+    padding-left: 0.5rem;
+}
+
+/* Añade estilos adicionales según sea necesario */
+
+
+/* Ajusta el espacio entre elementos del menú */
+.nav.flex-column .nav-link {
+    padding-left: 0.5rem;
+}
+
+/* Estilos para el menú desplegable */
+.collapse.show {
+    display: block;
+}
+
+/* Estilos para el enlace activo en el menú */
+.nav-item.active {
+    background-color: #e9ecef;
+}
+
+/* Añade estilos adicionales según sea necesario */
+
+
+/* CSS para la animación de escala y sombra en hover */
+.hover-scale {
+    transition: transform 0.3s ease-in-out; /* Transición suave de escala */
+}
+
+.hover-shadow {
+    transition: box-shadow 0.3s ease-in-out; /* Transición suave de sombra */
+}
+
+.hover-scale:hover {
+    transform: scale(1.1); /* Escala la imagen al 110% en hover */
+}
+
+.hover-shadow:hover {
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2); /* Agrega una sombra al pasar el cursor */
+}
+.custom-image-container2 {
+    position: relative;
+}
+
+.image-text-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7); /* Color de fondo del texto */
+    color: white; /* Color del texto */
+    padding: 5px; /* Espacio alrededor del texto */
+}
+.small-text {
+    font-size: 7px; /* Tamaño de fuente en píxeles o el valor que desees */
+}

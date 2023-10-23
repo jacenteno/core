@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h3 class="display-7 text-center mb-4">Ticket No. {{ factura_secuencia|floatformat:0 }}</h3>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-lg">
+                <div class="card-body">
+                    <form action="{% url 'consultar_cliente' %}" method="post">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="input-group">
+                                {{ consulta_form }}
+                                <div class="input-group-append">
+                                    <button type="submit" class="btn btn-success btn-sm  float-left">
+                                        <i class="fas fa-search"></i> Buscar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+
+                    {% if cliente_seleccion_form.opciones and cliente_seleccion_form.opciones|length > 0 %}
+                        <!-- Contenido relacionado con la selección de cliente -->
+                        <div class="row">
+                            <!-- Puedes agregar más contenido aquí si es necesario -->
+                        </div>
+                    {% else %}
+                        <div class="alert alert-info">
+                            Debe asignar un cliente.
+                        </div>
+                    {% endif %}
+
+                    <form action="{% url 'generar_ticket_pdf' %}" method="post">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ cliente_seleccion_form.label_tag }}
+                                    {{ cliente_seleccion_form.opciones }}
+                                    {{ clienteObjeto.email }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ sorteovendedor.tiposorteo.label_tag }} {{ sorteovendedor.tiposorteo }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ fechavalidaform.fecha_valida.label_tag }} {{ fechavalidaform.fecha_valida }}
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    {{ sorteovendedor.vendedor.label_tag }} {{ sorteovendedor.vendedor }}
+                                </div>
+                            </div>
+                        </div>
+                        {% csrf_token %}
+                        {{ impresion_form }}
+                        <div class="row">
+                            
+                            <div class="card-header  text-white">
+                                <div class="row justify-content-center">
+                                    <div class="col-md-4 text-right">
+                                        <span class="valor-grande">
+                                            <a href="{% url 'venta_Numeros' %}" class="btn btn-warning btn-sm float-right">
+                                                <i class="fas fa-shopping-cart"></i> Volver
+                                            </a>
+                                        </span>
+                                        <span class="cart-total total h1">
+                                            <button type="submit" name="action" value="imprimir" class="btn btn-success btn-sm float-right">
+                                                <i class="fas fa-print"></i> Imprimir
+                                            </button>
+
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="card-header bg-secondary text-white">
+                    <div class="row justify-content-center">
+                        <div class="col-md-4 text-center">
+                            <strong><span class="valor-grande">Total:</span></strong>
+                            <span class="cart-total total h1">${{ total_compra|floatformat:2 }}</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table thead-dark">
+                            <thead>
+                                <tr>
+                                    <th>Artículo</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio</th>
+                                    <th>Subtotal</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if request.session.carrito.items %}
+                                    {% for key, value in request.session.carrito.items %}
+                                        <tr>
+                                            <td>{{ value.nombre | capfirst }}</td>
+                                            <td>{{ value.cantidad }}</td>
+                                            <td>${{ value.precio|floatformat:2 }}</td>
+                                            <td>${{ value.acumulado|floatformat:2 }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="5">
+                                            <div class="alert alert-danger text-center">
+                                                Sin Productos en el Carrito
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="card-footer bg-secondary text-white">
+                    <div class="row justify-content-between">
+                        <div class="col-md-4">
+                            <strong><span class="valor-grande">No. Líneas:</span></strong>
+                            <span class="cart-total cantidad-total h2">{{ total_linea|floatformat:0 }}</span>
+                        </div>
+                        <div class="col-md-4">
+                            <strong><span class="valor-grande">Cantidad Items:</span></strong>
+                            <span class="cart-total cantidad-total h2">{{ total_qty|floatformat:0 }}</span>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <strong><span class="valor-grande">Total:</span></strong>
+                            <span class="cart-total total h2">${{ total_compra|floatformat:2 }}</span>
+                        </div>
+                    </div>
+                </div>
+                <br>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

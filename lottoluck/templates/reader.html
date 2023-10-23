@@ -1,0 +1,84 @@
+<nav id="sidebar" class="bg-light">
+    <ul class="list-unstyled components">
+        <!-- Menú Principal (solo ícono) -->
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="collapse" href="#menuPrincipal">
+                <i class="fas fa-bars"></i>
+            </a>
+            <div class="collapse show" id="menuPrincipal">
+                <ul class="nav flex-column pl-3">
+                    <!-- Menú desplegable "Clientes" con ícono -->
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#clientesSubMenu">
+                            <i class="fas fa-users"></i> Clientes
+                        </a>
+                        <div class="collapse show" id="clientesSubMenu">
+                            <ul class="nav flex-column pl-3">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'lista_clientes' %}">Listado de Clientes</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">CRM de Clientes</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- Menú desplegable "Venta" con ícono -->
+                    <li class="nav-item">
+                        <a class a="nav-link" data-toggle="collapse" href="#ventaSubMenu">
+                            <i class="fas fa-shopping-cart"></i> Venta
+                        </a>
+                        <div class="collapse show" id="ventaSubMenu">
+                            <ul class="nav flex-column pl-3">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'venta_Numeros' %}">Venta Numeros</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- Menú desplegable "Reporte" con ícono -->
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#reporteSubMenu">
+                            <i class="fas fa-chart-bar"></i> Reporte
+                        </a>
+                        <div class="collapse show" id="reporteSubMenu">
+                            <ul class="nav flex-column pl-3">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'consultasorteo' %}">Consulta Vta Sorteo</a>
+                                </li>
+                            </ul>
+                            <ul class="nav flex-column pl-3">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'ventaSorteo' %}">Ver Ticket</a>
+                                </li>
+                            </ul>
+                            
+
+ 
+                        </div>
+                    </li>
+
+                    <!-- Menú desplegable "Lista de Números" con ícono -->
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#numerosSubMenu">
+                            <i class="fas fa-list-ol"></i> Lista de Números
+                        </a>
+                        <div class="collapse show" id="numerosSubMenu">
+                            <ul class="nav flex-column pl-3">
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Números Disponibles</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">Números Reservados</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <!-- Agrega más menús o elementos del menú según sea necesario -->
+                </ul>
+            </div>
+        </li>
+    </ul>
+</nav>

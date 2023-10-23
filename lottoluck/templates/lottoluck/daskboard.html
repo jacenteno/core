@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <!-- Contenido principal del panel de control -->
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Primer Card -->
+                <div class="container">
+                    <div class="row-md-6">
+                        <div class="card border-0 shadow mb-3">
+                            <div class="card-header bg-success text-white">
+                                <strong>Sorteo</strong> {{ myjson.nombredelsorteo }}
+                            </div>
+                            
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <strong>Fecha:</strong> {{ myjson.fecha }} Sorteo No.{{ myjson.referencia }}
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>PRIMER PREMIO:</strong>
+                                        <span class="badge badge-success badge-pill float-right">{{ myjson.I_premio }}</span>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Letra:</strong> {{ myjson.letras }}
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Serie:</strong> {{ myjson.serie }}
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>Folio:</strong> {{ myjson.folio }}
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>SEGUNDO PREMIO:</strong>
+                                        <span class="badge badge-success badge-pill float-right">{{ myjson.II_premio }}</span>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <strong>TERCER PREMIO:</strong>
+                                        <span class="badge badge-success badge-pill float-right">{{ myjson.III_premio }}</span>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="card-footer bg-transparent border-0 text-muted">LNB</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Segundo Card -->
+                <div class="card border-0 shadow mb-3">
+                    <div class="card-header bg-success text-white">Resumen de Actividades</div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <h5 class="card-title">Clientes</h5>
+                                <p class="card-text">{{ ctes }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="card-title">Vendedores</h5>
+                                <p class="card-text">{{ vend }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="card-title">Tipo de Sorteo</h5>
+                                <p class="card-text">{{ sorteo }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="card-title">Casa Grande</h5>
+                                <p class="card-text">{{ casag }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="card-title">Transaciones de Vtas</h5>
+                                <p class="card-text">{{ ventas }}</p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5 class="card-title"> Sorteo en Vtas</h5>
+                                <p class="card-text">{{ SorteoEnVenta }}</p>
+                            </div>
+                            
+                            
+                        </div>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 text-muted">...</div>
+                </div>
+            </div>
+
+            <div class="col-md-4">
+                <!-- Gráfica -->
+                <div class="card border-0 shadow mb-3">
+                    <div class="card-header bg-success text-white">Actividades de lottoLuck</div>
+                    <div class="card-body">
+                        <canvas id="myChart" width="200" height="200"></canvas>
+                    </div>
+                    <div class="card-footer bg-transparent border-0 text-muted">...</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Script para crear el gráfico -->
+    <script>
+        // Datos ficticios para el gráfico
+        var cClientes = {{ ctes }};
+        var cVendedores = {{ vend }};
+        var cTiposorteo = {{ sorteo }};
+        var casag = {{ casag }};
+        var data = {
+            labels: ["Clientes", "Vendedores", "Tipo Sorteo", "Casa Grande"],
+            datasets: [{
+                data: [cClientes, cVendedores, cTiposorteo, casag],
+                borderColor: "#013A20",
+                backgroundColor: ["#013A20", "#478C5C", "#BACC81", "#CDD193"],
+                borderWidth: 1,
+                hoverBorderColor: "#fff",
+            }],
+        };
+
+        var options = {
+            responsive: true,
+            animation: {
+                duration: 2000,
+                easing: 'easeInOutQuart',
+            },
+        };
+
+        var ctx = document.getElementById("myChart").getContext("2d");
+
+        var myChart = new Chart(ctx, {
+            type: "line",
+            data: data,
+            options: options,
+        });
+    </script>
+{% endblock %}

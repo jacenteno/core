@@ -1,0 +1,44 @@
+<!-- En adicionar_cliente.html -->
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-4">
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                <strong>Error:</strong>
+                <ul>
+                    {% for error in form.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        <div class="card">
+            <div class="card-header text-white">
+                <div class="row">
+                    <div class="col">
+                        <h5 class="card-title">Nuevo Cliente</h5>
+                    </div>
+                </div>
+                <hr>
+            </div>
+            <div class="card-body">
+                <form action="" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group row">
+                           {{ form }}
+                        </div>
+                        <br>
+                        <button type="submit" class="btn btn-success">Guardar Cliente</button>
+                        <a class="btn btn-secondary" href="{% url 'lista_clientes' %}">Volver a la lista</a>
+                              
+                </form>
+                {{ mensaje }}
+
+            </div>
+        </div>
+    </div>
+ 
+
+
+{% endblock %}

@@ -1,0 +1,196 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1 class="my-4">Lista de Clientes</h1>
+            </div>    
+            <div class="col-md-12">
+                
+                <form method="get" action="{% url 'lista_clientes' %}"></form>
+                <div class="input-group mb-1">
+                    <input type="text" id="searchInput" class="form-control" placeholder="Buscar">
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" onclick="buscarCliente()">
+                            <i class="fas fa-search"></i> <!-- Agrega el ícono de búsqueda aquí -->
+                            <!--                           Buscar-->
+                        </button>
+                         <a href="{% url 'add_cliente' %}" class="btn btn-success ml-auto">
+                    <i class="fas fa-plus"></i> Clientes
+                </a>
+                    </div>
+                </div>
+               
+            </div>
+        </div>    
+        <div class="row-md-12">
+             <!-- Agrega un div para mostrar el mensaje -->
+             <div id="mensaje" class="alert alert-success" style="display: none;"></div>
+           
+            <table id="clientesTable" class="table table-striped table-ligth">
+                    <thead class="thead-dark">
+                        <tr>
+                            <th>Id</th>
+                            <th>Cédula</th>
+                            <th>Nombre</th>
+                            <th>Apellido</th>
+                            <th>Genero</th>
+                            <th>Email</th>
+                            <th>Opcion</tr>
+                          
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for cliente in page_obj%}
+                            <tr>
+                          
+                                <td>
+                                    {% if cliente.imagen %}
+                                        
+                                    <a href="{% url 'editar_cliente' cliente.id %}" class="text-success">
+                                        <img src="{{ cliente.imagen.url }}" alt="Avatar" class="custom-avatar">
+                                       
+                                    </a>
+                                    {% else %}
+                                        <!-- Muestra un avatar predeterminado o un marcador de posición si no hay imagen -->
+                                        <img src="{% static 'images/img/default/03.png' %}" alt="..." class="custom-avatar">
+                                    {% endif %}
+                                  
+                                </td>
+                                
+                                <td><a href="{% url 'editar_cliente' cliente.id %}" class="text-success">{{ cliente.cedula }}</a></td>
+                                <td>{{ cliente.nombre | capfirst}}</td>
+                                <td>{{ cliente.apellido }}</td>
+                                <td>{{ cliente.gender }}</td>
+                                <td>{{ cliente.email }}</td>
+                                
+                                
+                                <td>
+                                    <a href="{% url 'editar_cliente' cliente.id %}" class="btn btn-primary">
+                                        <i class="fas fa-edit"></i> 
+                                    </a>
+                                    <a href="{% url 'borrar_cliente' cliente.id %}" class="btn btn-danger">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+                      
+                        {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page=1" aria-label="Inicio">
+                                    <span aria-hidden="true"><i class="fas fa-angle-double-left"></i></span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Antes">
+                                    <span aria-hidden="true"><i class="fas fa-angle-left"></i></span>
+                                </a>
+                            </li>
+                        {% endif %}
+                
+                        <li class="page-item disabled">
+                            <span class="page-link">
+                                Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+                            </span>
+                        </li>
+                
+                        {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Próximo">
+                                    <span aria-hidden="true"><i class="fas fa-angle-right"></i></span>
+                                </a>
+                            </li>
+                            <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Último">
+                                    <span aria-hidden="true"><i class="fas fa-angle-double-right"></i></span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                
+                
+
+            </div>
+                
+        </div>   
+    </div>
+    </div>
+    <script>
+        let rows; // Declarar la variable en un alcance más amplio
+    
+        // Esta es la función que ya tenías en tu código
+        function buscarCliente() {
+            console.log("Función buscarCliente() llamada."); // Agrega este console.log
+            const searchInput = document.getElementById("searchInput").value.toLowerCase();
+            const table = document.getElementById("clientesTable");
+            const rows = table.getElementsByTagName("tr");
+            for (let i = 0; i < rows.length; i++) {
+                const clienteNombre = rows[i].getElementsByTagName("td")[2].textContent.toLowerCase();
+    
+                if (clienteNombre.includes(searchInput)) {
+                    rows[i].style.display = "";
+                } else {
+                    rows[i].style.display = "none";
+                }
+            }
+        }
+
+        function guardarNuevoCliente() {
+        // Recopila los datos del formulario de nuevo cliente
+        const nuevoClienteData = {
+            // Completa con los datos del formulario
+        };
+
+        // Realiza una solicitud AJAX para guardar el nuevo cliente en el servidor
+        // Puedes usar jQuery o Fetch API para hacer esto
+
+        // Después de guardar el cliente con éxito, muestra el mensaje
+        const mensaje = document.getElementById("mensaje");
+        mensaje.style.display = "block";
+
+        // También puedes volver a cargar la lista de clientes desde el servidor si es necesario
+
+        // Después de un tiempo, puedes ocultar el mensaje automáticamente si lo deseas
+        setTimeout(function() {
+            mensaje.style.display = "none";
+        }, 3000); // Esto ocultará el mensaje después de 3 segundos (3000 milisegundos)
+    }
+
+    
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tu código JavaScript aquí
+            // Por ejemplo, puedes agregar la función buscarCliente() aquí
+            rows = document.getElementById("clientesTable").getElementsByTagName("tr");
+    
+            // Esta es la función mejorada que te proporcioné en mi respuesta anterior
+            function buscarCliente() {
+                const searchInput = document.getElementById("searchInput").value.toLowerCase();
+    
+                for (let i = 0; i < rows.length; i++) {
+                    const clienteNombre = rows[i].getElementsByTagName("td")[1];
+    
+                    if (clienteNombre) {
+                        const texto = clienteNombre.textContent.toLowerCase();
+    
+                        if (texto.includes(searchInput)) {
+                            rows[i].style.display = "";
+                        } else {
+                            rows[i].style.display = "none";
+                        }
+                    }
+                }
+            }
+    
+            // Llama a la función buscarCliente() aquí o en cualquier otro lugar necesario.
+            const searchButton = document.querySelector(".btn-outline-secondary");
+            searchButton.addEventListener("click", buscarCliente);
+        });
+    </script>
+{% endblock %}

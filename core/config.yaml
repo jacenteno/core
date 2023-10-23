@@ -1,0 +1,11 @@
+correo:
+  email_address: jacenteno@gmail.com
+  email_password: dhtg xhzo ymoe ytnn
+  gmaipermiso: nqxr qyhe ysjx kicc
+base_datos:
+  motor: django.db.backends.sqlite3
+  nombre: db.sqlite3
+twilio:
+  twilio_account_sid: ACe96fae2f38691d6a6b93da0b614d7143
+  twilio_auth_token: 8465ac53221401243fc147d7cc6d333e
+  twilio_phone_number: +12103901516

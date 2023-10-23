@@ -1,0 +1,41 @@
+/* Estilos mejorados para la tarjeta de producto */
+.card {
+    border: none;
+    transition: box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.custom-image-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.product-image {
+    position: relative;
+}
+
+.product-info {
+    margin-bottom: 20px;
+}
+
+.product-action {
+    display: flex;
+    flex-direction: column;
+}
+
+.quantity {
+    display: flex;
+    align-items: center;
+}
+
+.quantity-text {
+    margin-right: 10px;
+}
+
+.quantity-buttons img {
+    cursor: pointer;
+    margin-right: 5px;
+}

@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="display-4 text-center mb-4"></h1>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card border-0 shadow-lg ">
+               
+                <div class="card-header bg-secondary text-white">
+                    <h3 class="card-title">Su Compra</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table thead-dark">
+                            <thead>
+                                <tr>
+                                    <th>Artículo</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio</th>
+                                    <th>Subtotal</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if request.session.carrito.items %}
+                                    {% for key, value in request.session.carrito.items %}
+                                        <tr>
+                                            <td>{{ value.nombre | capfirst }}</td>
+                                            <td>{{ value.cantidad }}</td>
+                                            <td>${{ value.precio|floatformat:2 }}</td>
+                                            <td>${{ value.acumulado|floatformat:2 }}</td>
+                                            <td>
+                                                <a href="{% url 'add' value.producto_id 0%}" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-plus"></i>
+                                                </a>
+                                                <a href="{% url 'sub' value.producto_id %}" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-minus"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    {% endfor %}
+                                {% else %}
+                                    <tr>
+                                        <td colspan="5">
+                                            <div class="alert alert-danger text-center">
+                                                Sin Productos en el Carrito
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="card-footer bg-secondary text-white">
+                    <div class="row justify-content-between">
+                        <div class="col-md-4">
+                            <strong><span class="valor-grande">No. Lineas:</span></strong>
+                            <span class="cart-total cantidad-total h2">{{ total_linea|floatformat:0 }}</span>
+                        </div>
+                        <div class="col-md-4">
+                            <strong><span class="valor-grande">Cantidad Total Items:</span></strong>
+                            <span class="cart-total cantidad-total h2">{{ total_qty|floatformat:0 }}</span>
+                        </div>
+                        <div class="col-md-4 text-right">
+                            <strong><span class="valor-grande">Total:</span></strong>
+                            <span class="cart-total total h2">${{ total_compra|floatformat:2 }}</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                
+                
+                <div class="card-footer bg-transparent border-0 text-muted text-center">
+                    <a href="{% url 'venta_Numeros' %}" class="btn bg-warning">
+                        <i class="fas fa-shopping-cart"></i> Volver 
+                    </a>
+                
+                    <a href="{% url 'CLS' %}" class="btn bg-danger" id="borrar-carrito">
+                        <i class="fas fa-trash"></i> Borrar 
+                    </a>
+                
+                    <a href="{% url 'pagar' %}" class="btn btn-success">
+                        <i class="fas fa-file-invoice-dollar"></i> Pago
+                    </a>
+                </div>
+                
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    document.getElementById('borrar-carrito').addEventListener('click', function (e) {
+        e.preventDefault(); // Evitar la redirección inmediata
+    
+        console.log('Evento de clic ejecutado'); // Agrega esto para verificar que el código se ejecuta
+    
+        // Mostrar un cuadro de diálogo de confirmación
+        if (confirm('¿Estás seguro de que deseas borrar todo el carrito?')) {
+            // Si el usuario confirma, redirigir a la URL de borrado
+            window.location.href = "{% url 'CLS' %}";
+        }
+    });
+</script>
+
+<script>
+    console.log("El valor de vendedor_forma.vendedores es:", {{ vendedor_forma.vendedores }});
+</script>
+
+{% endblock %}
+

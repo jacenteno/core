@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-4">
+    <img src="{% static 'images/img/default/lottoluckLogo.png' %}" alt="lottoLuck" class="custom-logo">
+    <h1>Sesión terminada</h1>
+    <p>Gracias por visitar LottoLuck. Tu sesión ha sido cerrada correctamente.</p>
+    <p>Esperamos que hayas tenido una buena experiencia en nuestro sitio web.</p>
+    <a href="{% url 'login' %}" class="btn btn-primary">Iniciar sesión de nuevo</a>
+</div>
+{% endblock %}
+
+
+
+

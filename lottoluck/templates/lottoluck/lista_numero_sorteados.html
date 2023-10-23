@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container mt-2">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Lista de Números Sorteados</h5>
+        </div>
+        <a href="{% url  'agregar_numero_sorteados' %}" class="btn btn-success ml-auto">
+            <i class="fas fa-plus"></i> Nuevo
+        </a>
+        <div class="card-body">
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha</th>
+                        <th>Tipo</th>
+                        <th>Sorteo Ref.</th>
+                        <th>I</th>
+                        <th>II</th>
+                        <th>III</th>
+                        
+                        <th>Acciones</th>
+                  
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for numero_sorteados in numeros_sorteados %}
+                    <tr>
+                        <td>{{ numero_sorteados.id }}</td>
+                        <td>{{ numero_sorteados.fecha_sorteo2 }}</td>
+                        <td>{{ numero_sorteados.id_sorteo  }}</td>
+                        <td>{{ numero_sorteados.referencia }}</td>
+                        <td>{{ numero_sorteados.I_premio }}</td>
+                        <td>{{ numero_sorteados.II_premio }}</td>
+                        <td>{{ numero_sorteados.III_premio }}</td>
+                        <td>
+                           
+                            <a href="{% url 'editar_numero_sorteados' numero_sorteados.id %}" class="btn btn-primary">
+                                <i class="fas fa-edit"></i> 
+                            </a>
+                            <a href="#" class="btn btn-danger">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+                         
+                            
+                        </td>
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

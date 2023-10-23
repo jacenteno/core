@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container mt-">
+    <h1 class="display-5 text-center mb-4">Cliente que han comprado el No. {{ numero }}</h1>
+    <div class="box-element">
+        <!-- Contenedor para el contenido del carrito -->
+        <div id="carrito-container"></div>
+        <div class="float-right">
+            <!-- Enlace al PDF alineado a la derecha -->
+            {% if messages %}
+                <div class="messages">
+                    <ul>
+                        {% for message in messages %}
+                            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                                {{ message }}
+                                {% if pdf_link %}
+                                    <a href="{{ pdf_link }}" target="_blank" class="btn btn-primary">Descargar PDF</a>
+                                {% endif %}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+
+    <div class="row">
+        {% for cliente_ticket in clientes_tickets %}
+            <div class="col-md-6">
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-body">
+                        <div class="product-info">
+                            <h2>Detalle del Cliente</h2>
+                            <p><strong>Nombre:</strong> {{ cliente_ticket.cliente.nombre }}</p>
+                            <p><strong>Cédula:</strong> {{ cliente_ticket.cliente.cedula }}</p>
+                            <p><strong>Dirección:</strong> {{ cliente_ticket.cliente.direccion }}</p>
+                            <p><strong>Email:</strong> {{ cliente_ticket.cliente.email }}</p>
+                            <p><strong>Teléfono:</strong> {{ cliente_ticket.cliente.telefono }}</p>
+                            <h2>Detalle del Ticket de Compra</h2>
+                            <p><strong>ID del Ticket:</strong> {{ cliente_ticket.ticket_de_compra.id }}</p>
+                            <p><strong>Fecha del Sorteo:</strong> {{ cliente_ticket.ticket_de_compra.fecha_sorteo }}</p>
+                            <li><strong>Descripción:</strong> <span style="font-size: 0.8em;">{{ cliente_ticket.ticket_de_compra.descripcion|linebreaks }}</span></li>
+
+                            <p><strong>Estado:</strong> {{ cliente_ticket.ticket_de_compra.estado }}</p>
+                            <a href="{{ cliente_ticket.ticket_de_compra.pdf_file }}" class="btn btn-primary">Descargar PDF del Ticket</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="row justify-content-center mt-2">
+        <div class="col-md-2">
+            <button class="btn btn-secondary" onclick="goBack()">Volver a la página anterior</button>
+        </div>
+    </div>
+    <br>
+    
+    <script>
+    function goBack() {
+        window.history.back();
+    }
+    </script>
+</div>
+{% endblock %}

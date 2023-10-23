@@ -1,0 +1,40 @@
+.custom-avatar {
+    width: 60px;
+    height: 600px;
+    border-radius: 10%;
+    object-fit: cover;
+    border: 2px solid #007bff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: border-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+.smaller-text {
+    font-size: 8px; /* Puedes ajustar el tamaño según tus necesidades */
+}
+
+.custom-avatar:hover {
+    border-color: #ff5733;
+    transform: scale(1.1);
+    transition: border-color 0.3s ease-in-out, transform 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+/* Fondo degradado para resaltar el avatar */
+.custom-avatar::before {
+    content: '';
+    position: absolute;
+    width: 60%;
+    height: 60%;
+    border-radius: 10%;
+    background: radial-gradient(circle at 30% 40%, #007bff, transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.custom-avatar:hover::before {
+    opacity: 1;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.valor-grande {
+    font-size: 40px;
+}
