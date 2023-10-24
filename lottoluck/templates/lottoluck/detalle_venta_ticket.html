@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    {% load static %}
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LottoLuck</title>
+    <meta charset="UTF-8">
+
+    <!-- Incluye las bibliotecas de jQuery y Bootstrap aquí -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+
+    <!-- Incluye Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js"></script>
+
+    <!-- Incluye la biblioteca Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/avatar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/cart.css' %}">
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
+
+    <script src="{% static 'js/htmx.min.js' %}"></script>
+</head>
+<div class="container mt-4">
+    <h1 class="display-4 text-center mb-4">Test htmx </h1>
+
+    <div class="card-header">
+        <div class="card-body">
+            <form method="post" hx-post="{% url 'buscar_venta' %}" hx-target="#containertick" hx-tigger="keyup">
+                {% csrf_token %}
+                <label for="numero_ticket">Número de Ticket:</label>
+                <input type="text" id="numero_ticket" name="numero_ticket" hx-trigger="change"
+                    hx-sync="closest form:abort">
+                <button type="submit" hx-tigger="click">Buscar
+                </button>
+
+
+            </form>
+        </div>
+        <div id="containertick">
+            <!-- Resultados se cargarán aquí mediante Htmx -->
+
+            {% if venta %}
+
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">{{ venta.estado}} ->{{ venta.transaction_id }}</h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>Estado :{{ venta.estado}} </p>
+                        <p>Número de Ticket: {{ venta.transaction_id }}</p>
+                        <p>Fecha de Sorteo : {{ venta.fecha_sorteo }} Tipo de Sorte: {{ venta.id_sorteo }}</p>
+                        <p>Facturado a : {{ venta.id_cliente }}</p>
+                        <p>Cantidad : {{ venta.totalqty }} Monto: {{ venta.totalventa}}</p>
+                        <p>Vendedor : {{ venta.id_vendedor }} </p>
+                        <p>Fecha de Compra : {{ venta.fecha_creacion }} </p>
+                        <p>ES Ganador? :{{ venta.id_sorteo_premio }}</p>
+                        <p>PDF :{{ venta.pdf_file }} </p>
+                    </div>
+                    {% if detalles %}
+                    <h3>Su compra</h3>
+                    <ul>
+                        <table id="clientesTable" class="table table-striped table-ligth">
+                            <thead class="thead-dark">
+                                <tr>
+                                    <th>Cantidad</th>
+                                    <th>Número</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for detalle in detalles %}
+                                <td>{{ detalle.cantidad }}</td>
+                                <td>{{ detalle.numero }}</td>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endif %}
+                    </ul>
+
+                    {% if error_message %}
+                    <p>{{ error_message }}</p>
+                    {% endif %}
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script>
+    htmx.on('htmx:afterRequest', function (event) {
+        // Esta función se ejecuta después de cargar los resultados
+        // Puedes agregar lógica adicional aquí si es necesario
+    });
+</script>

@@ -104,14 +104,15 @@
                           
                             <p class="card-text">Cant. {{ item.totalqty|floatformat:0 }}  $ {{ item.totalventa|floatformat:2}}</p>
                             <p class="card-text"></p>
-                            <p class="card-text">-{{ item.detalles.all }}-</p>
+                            <p class="card-text">-{{ item.detalles.all }}</p>
                            
                         </div>
                         <div class="product-action">
-                            <p class="card-text">{{ item.estado}}</p>
-                            
-                           
+                            <p class="card-text">Estatus: {{ item.estado}}</p>
                         </div>
+                        
+                        <a href="{{ item.ticket_de_compra.pdf_file }}" class="btn btn-success btn-sm">Descargar PDF del Ticket</a>
+                  
                     </div>
                 </div>
             </div>

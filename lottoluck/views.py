@@ -8,6 +8,10 @@ from django.contrib.auth import login, logout
 from django.templatetags.static import static
 from django.http import FileResponse
 
+from django.http import JsonResponse
+from django.shortcuts import render, get_object_or_404
+from django.template.loader import render_to_string
+
 from decimal import Decimal
 
 from datetime import datetime
@@ -120,8 +124,6 @@ from twilio.rest import Client
 from django.conf import settings
 
 from django.db.models import Sum, F
-
-
 
 
 def fecha_en_palabras(fecha):
@@ -725,6 +727,7 @@ def enviar_mensaje_whatsapp(numero_consecutivo, filefactura, nombre2, telefono_c
     if message.sid:
         print(f"Mensaje enviado a {telefono_cliente} con éxito.")
     else:
+
         print("Error al enviar el mensaje de WhatsApp.")
 
 
@@ -1128,7 +1131,7 @@ def is_admin(user):
 def init_numeros(request):
     # Elimina todos los registros existentes en la tabla Numeros
     from .models import Numero
-    #Numero.objects.all().delete()
+    # Numero.objects.all().delete()
 
     # Crea números del 00 al 99 y guárdalos en la tabla Numeros
     for numero in range(100):
@@ -1188,8 +1191,8 @@ def editar_numero_sorteados(request, numero_sorteados_id):
             print("paso VALID")
             form.save()
             # Redirige a la lista de números sorteados
-            return redirect('lista_numero_sorteados')
-            
+            return redirect('/')
+
         else:
             context = {
                 'form': form,
@@ -1235,3 +1238,28 @@ def lista_numero_sorteados(request):
 
     return render(request, 'lottoluck/lista_numero_sorteados.html', {'numeros_sorteados': numero_sorteados})
 
+
+def get_items(request):
+    items = ["Item 1", "Item 2", "Item 3"]
+    return render(request, 'lottoluck/mytemplate.html', {'items': items})
+    # return JsonResponse({'items': items})
+
+
+def detalle_venta_ticket(request, transaction_id):
+    venta = get_object_or_404(VtasSorteo, transaction_id=transaction_id)
+    detalles = VtasDetalle.objects.filter(id_vtasorteo=venta)
+
+    return render(request, 'lottoluck/detalle_venta_ticket.html', {'venta': venta, 'detalles': detalles})
+
+
+def buscar_venta(request):
+    if request.method == "POST":
+        numero_ticket = request.POST.get('numero_ticket')
+        try:
+            venta = VtasSorteo.objects.get(transaction_id=numero_ticket)
+            detalles = venta.vtasdetalles.all()  # Obtén los detalles relacionados
+            return render(request, 'lottoluck/detalle_venta_ticket.html', {'venta': venta, 'detalles': detalles})
+        except VtasSorteo.DoesNotExist:
+            error_message = "Venta no encontrada."
+            return render(request, 'lottoluck/detalle_venta_ticket.html', {'error_message': error_message})
+    return render(request, 'lottoluck/detalle_venta_ticket.html')

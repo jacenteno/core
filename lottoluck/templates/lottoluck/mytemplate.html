@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTMX Example</title>
+    <script src="https://unpkg.com/htmx.org@1.7.2/dist/htmx.js"></script>
+</head>
+<form id="buscar-form" hx-post="{% url 'buscar_venta' %}">
+    <label for="transaction-id">Número de Ticket:</label>
+    <input type="text" id="transaction-id" name="transaction_id">
+    <button type="submit" hx-target="#detalles-venta">Buscar</button>
+</form>
+</body>
+</html>

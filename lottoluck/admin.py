@@ -19,30 +19,30 @@ class ClientesAdmin(admin.ModelAdmin):
     list_filter = ("cedula", "nombre", "apellido", "email")
     list_editable = ["gender"]
     list_per_page = 15
-    readonly_fields = ("display_imagen_admin",)
+    # readonly_fields = ("display_imagen_admin",)
 
-    def display_imagen(self, obj):
-        return format_html('<div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden;"><img src="{}" style="width: 100%; height: 100%; object-fit: cover;" /></div>', obj.imagen.url)
+    # def display_imagen(self, obj):
+    #    return format_html('<div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden;"><img src="{}" style="width: 100%; height: 100%; object-fit: cover;" /></div>', obj.imagen.url)
 
-    def display_imagen_admin(self, obj):
-        return format_html('<div style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden;"><img src="{}" style="width: 100%; height: 100%; object-fit: cover;" /></div>', obj.imagen.url)
+    # def display_imagen_admin(self, obj):
+    #    return format_html('<div style="width: 100px; height: 100px; border-radius: 50%; overflow: hidden;"><img src="{}" style="width: 100%; height: 100%; object-fit: cover;" /></div>', obj.imagen.url)
 
-    display_imagen.short_description = "Foto"
-    display_imagen_admin.short_description = "Foto Actual"
+    # display_imagen.short_description = "Foto"
+    # display_imagen_admin.short_description = "Foto Actual"
 
-    def display_imagen1(self, obj):
-        if obj.imagen:
-            return format_html('<div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden;"><img src="{}" style="width: 100%; height: 100%; object-fit: cover;" /></div>', obj.imagen.url)
+    # def display_imagen1(self, obj):
+    #    if obj.imagen:
+    #        return format_html('<div style="width: 50px; height: 50px; border-radius: 50%; overflow: hidden;"><img src="{}" style="width: 100%; height: 100%; object-fit: cover;" /></div>', obj.imagen.url)
 
-        else:
-            return "N/A"
+    #    else:
+    #        return "N/A"
 
     # display_imagen.short_description = "Imagen"
 
 
 admin.site.register(Sorteos)
 
-admin.site.register(Clientes, ClientesAdmin)
+admin.site.register(Clientes)
 admin.site.register(Casagrande)
 admin.site.register(Vendedor)
 admin.site.register(Secuencia)

@@ -2,7 +2,6 @@
 <html lang="es">
 {% load crispy_forms_tags %}  
 {% load static %}
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -40,14 +39,15 @@
     
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.datatables.net/1.11.6/js/jquery.dataTables.min.js"></script>
+    
+    <script src="{% static 'js/htmx.min.js' %}"></script>
+
+
 
 </head>
 <body>
     <!-- Incluye el archivo header.html para el encabezado (header) -->
     {% include 'header.html' %}
-  
-
-    
     <div class="container-fluid">
         <div class="row">
             <!-- Menú lateral (sidebar) -->
@@ -62,13 +62,13 @@
             </main>
         </div>
     </div>
-
     <!-- Incluye el archivo footer.html para el pie de página (footer) -->
     {% include 'footer.html' %}
-    
     <!-- Incluye Bootstrap JS y jQuery al final del cuerpo -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="{% static 'js/htmx.min.js' %}"></script>
+
 </body>
 </html>

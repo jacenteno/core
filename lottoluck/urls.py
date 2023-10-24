@@ -4,6 +4,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from .views import ClientesListView, agregar_numero, eliminar_numero, limpiar_numero, restar_numero, ver_carrito
 from .views import CustomLogoutView
+
 from django.views.decorators.http import require_http_methods
 urlpatterns = [
     #  path(''                                ,views.lista_clientes , name='lista_clientes'),
@@ -50,10 +51,13 @@ urlpatterns = [
          name='agregar_numero_sorteados'),
     # path('agregar_numero_sorteados/', views.agregar_numero_sorteados,
     #    name='agregar_numero_sorteados'),
-
-
-
     # path("unicorn/", include("django_unicorn.urls")),
+    path('get-items/', views.get_items, name='get_items'),
+    path('buscar_venta/', views.buscar_venta, name='buscar_venta'),
+
+    path('ticket/<str:transaction_id>/',
+         views.detalle_venta_ticket, name='ticket'),
+
 
 
 ]
