@@ -470,6 +470,31 @@ class VtasDetalle(models.Model):
 
         return clientes_tickets
 
+    @classmethod
+    def obtener_historial_de_compra_por_cliente(cls, numero_cliente):
+        # Filtra las ventas basadas en el número de cliente
+        ventas = cls.objects.filter(
+            id_vtasorteo__id_cliente__numero_cliente=numero_cliente)
+
+        clientes_tickets = []
+
+        for venta in ventas:
+            clientes_tickets.append({
+                'cliente': {
+                    'nombre': venta.id_vtasorteo.id_cliente.get_full_name(),
+                    'cedula': venta.id_vtasorteo.id_cliente.cedula,
+                },
+                'ticket_de_compra': {
+                    'id': venta.id_vtasorteo.id,
+                    'fecha_sorteo': venta.id_vtasorteo.fecha_sorteo,
+                    'descripcion': venta.id_vtasorteo.descripcion,
+                    'pdf_file': venta.id_vtasorteo.pdf_file.url if venta.id_vtasorteo.pdf_file else None,
+                    'estado': venta.id_vtasorteo.estado,
+                }
+            })
+
+        return clientes_tickets
+
 
 class Secuencia(models.Model):
     numero_consecutivo = models.PositiveBigIntegerField(default=1)

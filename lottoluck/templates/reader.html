@@ -2,6 +2,7 @@
     <ul class="list-unstyled components">
         <!-- Menú Principal (solo ícono) -->
         <li class="nav-item">
+
             <a class="nav-link" data-toggle="collapse" href="#menuPrincipal">
                 <i class="fas fa-bars"></i>
             </a>
@@ -51,12 +52,17 @@
                             </ul>
                             <ul class="nav flex-column pl-3">
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{% url 'ventaSorteo' %}">Ver Ticket</a>
-                                </li>
-                            </ul>
-                            
+                                    <a class="nav-link" href="{% url 'ventaSorteo' %}">Historial de Ticket</a>
 
- 
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{% url 'buscar_venta' %}">Consultar un Ticket</a>
+                                </li>
+
+                            </ul>
+
+
+
                         </div>
                     </li>
 

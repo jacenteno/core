@@ -183,6 +183,13 @@ def venta_Numeros(request):
     return render(request, 'lottoLuck/ventas_numero.html', context)
 
 
+def historial_compra_cliente(request, numero_cliente):
+    historial_compra = VtasDetalle.obtener_historial_de_compra_por_cliente(
+        numero_cliente)
+
+    return render(request, 'historial_compra.html', {'historial_compra': historial_compra})
+
+
 @login_required
 def ventaSorteo(request):
     year = datetime.datetime.now().year

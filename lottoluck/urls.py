@@ -57,6 +57,9 @@ urlpatterns = [
 
     path('ticket/<str:transaction_id>/',
          views.detalle_venta_ticket, name='ticket'),
+    path('comprasctes/<int:numero_cliente>/',
+         views.historial_compra_cliente, name='comprasctes'),
+
 
 
 

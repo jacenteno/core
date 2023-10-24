@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Historial de Compra del Cliente</title>
+</head>
+
+<body>
+    <h1>Historial de Compra del Cliente</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Cliente</th>
+                <th>Ticket de Compra</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for venta in historial_compra %}
+            <tr>
+                <td>
+                    <h3>{{ venta.cliente.nombre }}</h3>
+                    <p>Cédula: {{ venta.cliente.cedula }}</p>
+                    <p>Dirección: {{ venta.cliente.direccion }}</p>
+                    <p>Email: {{ venta.cliente.email }}</p>
+                    <p>Teléfono: {{ venta.cliente.telefono }}</p>
+                </td>
+                <td>
+                    <h4>Ticket de Compra {{ venta.ticket_de_compra.id }}</h4>
+                    <p>Fecha de Sorteo: {{ venta.ticket_de_compra.fecha_sorteo }}</p>
+                    <p>Descripción: {{ venta.ticket_de_compra.descripcion }}</p>
+                    {% if venta.ticket_de_compra.pdf_file %}
+                    <p><a href="{{ venta.ticket_de_compra.pdf_file }}" target="_blank">Ver PDF</a></p>
+                    {% else %}
+                    <p>Sin PDF adjunto</p>
+                    {% endif %}
+                    <p>Estado: {{ venta.ticket_de_compra.estado }}</p>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+
+</html>
