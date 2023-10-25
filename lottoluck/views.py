@@ -184,10 +184,12 @@ def venta_Numeros(request):
 
 
 def historial_compra_cliente(request, numero_cliente):
+
     historial_compra = VtasDetalle.obtener_historial_de_compra_por_cliente(
         numero_cliente)
-
-    return render(request, 'historial_compra.html', {'historial_compra': historial_compra})
+    print(historial_compra)
+    print(numero_cliente)
+    return render(request, 'lottoLuck/comprasctes.html', {'historial_compra': historial_compra})
 
 
 @login_required

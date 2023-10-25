@@ -472,24 +472,28 @@ class VtasDetalle(models.Model):
 
     @classmethod
     def obtener_historial_de_compra_por_cliente(cls, numero_cliente):
-        # Filtra las ventas basadas en el número de cliente
-        ventas = cls.objects.filter(
-            id_vtasorteo__id_cliente__numero_cliente=numero_cliente)
+        # Filtra las ventas basadas en el número de cliente (id_cliente)
+        # ventas = VtasSorteo.objects.filter(id_cliente=numero_cliente)
+        ventas = VtasSorteo.objects.filter(
+            id_cliente=numero_cliente).order_by('-transaction_id')
 
         clientes_tickets = []
 
         for venta in ventas:
             clientes_tickets.append({
-                'cliente': {
-                    'nombre': venta.id_vtasorteo.id_cliente.get_full_name(),
-                    'cedula': venta.id_vtasorteo.id_cliente.cedula,
-                },
                 'ticket_de_compra': {
-                    'id': venta.id_vtasorteo.id,
-                    'fecha_sorteo': venta.id_vtasorteo.fecha_sorteo,
-                    'descripcion': venta.id_vtasorteo.descripcion,
-                    'pdf_file': venta.id_vtasorteo.pdf_file.url if venta.id_vtasorteo.pdf_file else None,
-                    'estado': venta.id_vtasorteo.estado,
+                    'id': venta.id,
+                    'fecha_sorteo': venta.fecha_sorteo,
+                    'pdf_file': venta.pdf_file.url if venta.pdf_file else None,
+                    'estado': venta.estado,
+                    'tiposorteo': venta.id_sorteo,
+                    'trx': venta.transaction_id,
+                    'cte': venta.id_cliente,
+                    'detalle': venta.descripcion,
+                    'cantidad': venta.totalqty,
+                    "total": venta.totalventa
+
+
                 }
             })
 
