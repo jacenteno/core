@@ -59,6 +59,10 @@ urlpatterns = [
          views.detalle_venta_ticket, name='ticket'),
     path('comprasctes/<int:numero_cliente>/',
          views.historial_compra_cliente, name='comprasctes'),
+    path('ganadores/<str:id_sorteo>/<str:fecha>/<int:premio1>/<int:premio2>/<int:premio3>/',
+         views.ganadores, name='ganadores'),
+
+
 
 
 

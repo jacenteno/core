@@ -17,39 +17,46 @@
                 <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Code</th>
+                        <th>Tipo Sorteo</th>
                         <th>Fecha</th>
-                        <th>Tipo</th>
                         <th>Sorteo Ref.</th>
                         <th>I</th>
                         <th>II</th>
                         <th>III</th>
-                        
+
                         <th>Acciones</th>
-                  
+
                     </tr>
                 </thead>
                 <tbody>
                     {% for numero_sorteados in numeros_sorteados %}
                     <tr>
                         <td>{{ numero_sorteados.id }}</td>
+
+                        <td>{{ numero_sorteados.fecha6 }}</td>
+                        <td>{{ numero_sorteados.idtiposorteo }}</td>
+
                         <td>{{ numero_sorteados.fecha_sorteo2 }}</td>
-                        <td>{{ numero_sorteados.id_sorteo  }}</td>
                         <td>{{ numero_sorteados.referencia }}</td>
                         <td>{{ numero_sorteados.I_premio }}</td>
                         <td>{{ numero_sorteados.II_premio }}</td>
                         <td>{{ numero_sorteados.III_premio }}</td>
+
                         <td>
-                           
-                            <a href="{% url 'editar_numero_sorteados' numero_sorteados.id %}" class="btn btn-primary">
-                                <i class="fas fa-edit"></i> 
+
+                            <a href="{% url 'editar_numero_sorteados' numero_sorteados.id %}"
+                                class="btn btn-primary  btn-sm float-left">
+                                <i class="fas fa-edit"></i>
                             </a>
-                            <a href="#" class="btn btn-danger">
-                                <i class="fas fa-trash-alt"></i>
+                            <a href="{% url 'ganadores'  numero_sorteados.idtiposorteo numero_sorteados.fecha5 numero_sorteados.I_premio numero_sorteados.II_premio numero_sorteados.III_premio %}"
+                                class="btn btn-success btn-sm float-right">
+                                <i class="fas fa-trophy"></i> Ganadores
                             </a>
-                         
-                            
+
+
                         </td>
-                        
+
                     </tr>
                     {% endfor %}
                 </tbody>

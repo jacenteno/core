@@ -1,0 +1,109 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="container mt-2">
+    <div class="card">
+        <div class="card-header">
+            <h5 class="card-title">Los Ganadores {{ numeroGanadores }}</h5>
+        </div>
+
+        <div class="card-body">
+            <div class="row-md-12">
+                <table id="clientesTable" class="table table-striped table-ligth">
+                    <thead class="thead-dark">
+                        <thead class="thead-dark">
+                            <tr>
+                                <th scope="col">Status</th>
+                                <th scope="col">Ticket</th>
+                                <th scope="col">Número</th>
+                                <th scope="col">Cant</th>
+                                <th scope="col">Tot. Compra</th>
+                                <th scope="col">I</th>
+                                <th scope="col">II</th>
+                                <th scope="col">III</th>
+                                <th scope="col">Sorteo</th>
+                                <th scope="col">Vendedor</th>
+                                <th scope="col">Nombre</th>
+                                <th scope="col">Cédula</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </thead>
+                    </thead>
+                    <tbody>
+                        {% for detalle in detalle_info %}
+                        <tr>
+                            <td>
+                                <input type="checkbox" name="seleccionar[]" value="{{ detalle.id }}">
+                            </td>
+                            <td>{{ detalle.vtasSorteo_info.ticket }}</td>
+                            <td>{{ detalle.numero }}</td>
+                            <td>{{ detalle.cantidad }}</td>
+                            <td>{{ detalle.total }}</td>
+                            <td class="text-right text-danger"> {{ detalle.I }} {{ detalle.premio1 }}</td>
+                            <td class="text-right text-danger"> {{ detalle.II }} {{ detalle.premio3 }}</td>
+                            <td class="text-right text-danger"> {{ detalle.III }} {{ detalle.premio3 }}</td>
+                            <td>{{ detalle.vtasSorteo_info.sorteo }}</td>
+                            <td>{{ detalle.vtasSorteo_info.vendedor }}</td>
+                            <td>{{ detalle.cliente_info.nombre }}</td>
+                            <td>{{ detalle.cliente_info.cedula }}</td>
+                            <td>{{ detalle.cliente_info.email }}</td>
+                            <td>
+                                <a href="#" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-money-bill"></i> Pagar
+                                </a>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+
+
+                </table>
+            </div>
+        </div>
+
+        <div class="card-header bg-secondary text-white">
+            <div class="row justify-content-center">
+                <div class="row-md-4 text-center">
+                    <strong><span class="valor-grande">Cant. Compra</span></strong>
+                    <span class="cart-total total h1">{{ totalqty|floatformat:0}}</span>
+                    <strong><span class="valor-grande">Venta TOTAL:</span></strong>
+                    <span class="cart-total total h1">${{ totalventa|floatformat:2 }}</span>
+
+                </div>
+            </div>
+
+            <div class="row justify-content-center">
+                <div class="col-md-4 text-center">
+                    <strong><span class="valor-grande">Pagar I:</span></strong>
+                    <span class="cart-total total h2">{{ totalganado1|floatformat:2 }}</span>
+                </div>
+                <div class="col-md-4 text-center">
+                    <strong><span class="valor-grande">Pagar II:</span></strong>
+                    <span class="cart-total total h2">{{ totalganado2|floatformat:2 }}</span>
+                </div>
+                <div class="col-md-4 text-center">
+                    <strong><span class="valor-grande">Pagar III:</span></strong>
+                    <span class="cart-total total h2">{{ totalganado3|floatformat:2 }}</span>
+                </div>
+                <div class="col-md-4 text-center">
+                    <strong><span class="valor-grande">TOTAL A PAGAR: </span></strong>
+                    <span class="cart-total total h1">{{ totalpagosorteo |floatformat:2 }}</span>
+                </div>
+
+            </div>
+        </div>
+        <br>
+        <div class="form-group row">
+            <div class="col-sm-12 text-center">
+                <a class="btn btn-primary btn-sm float-left" href="{% url 'lista_numero_sorteados' %}">Volver a la
+                    lista</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

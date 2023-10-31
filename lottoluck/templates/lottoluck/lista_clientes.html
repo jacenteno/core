@@ -180,11 +180,25 @@
 
             for (let i = 0; i < rows.length; i++) {
                 const clienteNombre = rows[i].getElementsByTagName("td")[1];
+                const clienteApellido = rows[i].getElementsByTagName("td")[2];
+                const clienteCedula = rows[i].getElementsByTagName("td")[3];
+                const clienteDireccion = rows[i].getElementsByTagName("td")[4];
+                const clienteEmail = rows[i].getElementsByTagName("td")[5];
 
                 if (clienteNombre) {
-                    const texto = clienteNombre.textContent.toLowerCase();
+                    const textoNombre = clienteNombre.textContent.toLowerCase();
+                    const textoApellido = clienteApellido.textContent.toLowerCase();
+                    const textoCedula = clienteCedula.textContent.toLowerCase();
+                    const textoDireccion = clienteDireccion.textContent.toLowerCase();
+                    const textoEmail = clienteEmail.textContent.toLowerCase();
 
-                    if (texto.includes(searchInput)) {
+                    if (
+                        textoNombre.includes(searchInput) ||
+                        textoApellido.includes(searchInput) ||
+                        textoCedula.includes(searchInput) ||
+                        textoDireccion.includes(searchInput) ||
+                        textoEmail.includes(searchInput)
+                    ) {
                         rows[i].style.display = "";
                     } else {
                         rows[i].style.display = "none";

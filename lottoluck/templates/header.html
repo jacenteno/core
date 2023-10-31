@@ -1,120 +1,124 @@
 {% load static %}
 <header>
     <!-- Barra de navegación superior -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark style="background-color: #e3f2fd">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark style=" background-color: #e3f2fd">
         <div class="container-fluid justify-content-between">
-          <!-- Left elements -->
+            <!-- Left elements -->
             <ul class="navbar-nav flex-row d-none d-md-flex">
-      
-            <!-- Logo o nombre de la empresa -->
-       
+
+                <!-- Logo o nombre de la empresa -->
+
                 <a class="navbar-brand" href="{% url 'lottoluck_home' %}">
-                    <img src="{% static 'images/img/default/lottoluckLogo.png' %}" alt="lottoLuck" class="custom-logoHeader">lottoluck
+                    <img src="{% static 'images/img/default/lottoluckLogo.png' %}" alt="lottoLuck"
+                        class="custom-logoHeader">lottoluck
                 </a>
-      
 
-            <!-- Botón de menú colapsable para dispositivos móviles -->
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
 
-            <!-- Elementos del menú de navegación -->
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'lista_clientes' %}" data-toggle="tooltip" data-placement="top" title="Consultad Clientes">
-                            Clientes
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'venta_Numeros' %}" data-toggle="tooltip" data-placement="top" title="Proceso de Ventas">
-                            Ventas
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'consultasorteo' %}">
-                            Transacciones
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'lista_numero_sorteados' %}">
-                            Registrar Sorteo
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            Consulta Ganadores
-                        </a>
-                    </li>
-                    <li class="nav-item mr-3">
-                        <!-- Barra de búsqueda -->
-                        <form class="form-inline my-8 my-lg-0">
-                            <div class="input-group">
-                                <input class="form-control" type="search" name="q" placeholder="Buscar" aria-label="Buscar">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-warning" type="submit">
-                                        <i class="fa fa-search"></i> <!-- Icono de búsqueda -->
-                                    </button>
+                <!-- Botón de menú colapsable para dispositivos móviles -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Elementos del menú de navegación -->
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ml-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'lista_clientes' %}" data-toggle="tooltip"
+                                data-placement="top" title="Consultad Clientes">
+                                Clientes
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'venta_Numeros' %}" data-toggle="tooltip"
+                                data-placement="top" title="Proceso de Ventas">
+                                Ventas
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'consultasorteo' %}">
+                                Transacciones
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="{% url 'lista_numero_sorteados' %}">
+                                Registrar Sorteo
+                            </a>
+                        </li>
+
+                        <li class="nav-item mr-3">
+                            <!-- Barra de búsqueda -->
+                            <form class="form-inline my-8 my-lg-0">
+                                <div class="input-group">
+                                    <input class="form-control" type="search" name="q" placeholder="Buscar"
+                                        aria-label="Buscar">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-outline-warning" type="submit">
+                                            <i class="fa fa-search"></i> <!-- Icono de búsqueda -->
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
-                    </li>
-                    <li class="nav-item mr-3">
-                        <div class="ml-auto mt-8"></div>
+                            </form>
+                        </li>
+                        <li class="nav-item mr-3">
+                            <div class="ml-auto mt-8"></div>
                             {% if user.is_authenticated %}
-                                <span class="text-white mr-2 text-sm">
-                                    Bienvenido: {{ user.username }}
-                                </span><br>
-                                <a  href="{% url 'logout' %}" class="badge badge-pill badge-warning mr-1"> 
-                                    <span class="badge badge-pill">
-                                        Salir
-                                    </span>
-                                </a>
+                            <span class="text-white mr-2 text-sm">
+                                Bienvenido: {{ user.username }}
+                            </span><br>
+                            <a href="{% url 'logout' %}" class="badge badge-pill badge-warning mr-1">
+                                <span class="badge badge-pill">
+                                    Salir
+                                </span>
+                            </a>
                             {% else %}
-                                <a  href="{% url 'login' %}" class="badge badge-pill badge-warning mr-1">
-                                    <span class="badge badge-pill">
+                            <a href="{% url 'login' %}" class="badge badge-pill badge-warning mr-1">
+                                <span class="badge badge-pill">
                                     Iniciar
                                 </span>
-                                </a>
+                            </a>
                             {% endif %}
                             <div class="ml-auto mt-8"></div>
-                          
-                               <li class="nav-item me-3 me-lg-1">
-                                <a class="nav-link" href="{% url 'vercarrito' %}">
+
+                        <li class="nav-item me-3 me-lg-1">
+                            <a class="nav-link" href="{% url 'vercarrito' %}">
                                 {% if total_linea > 0 %}
-                                    <span class="badge rounded-pill badge-notification bg-danger">{{ total_linea | floatformat:0 }}</span>
+                                <span class="badge rounded-pill badge-notification bg-danger">{{ total_linea |
+                                    floatformat:0 }}</span>
                                 {% endif %}
-                                    <p><i class="fas fa-tag"></i></p >
-                                </a>
-                               </li>
-                               <li class="nav-item me-3 me-lg-1">
-                                <a class="nav-link" href="{% url 'vercarrito' %}">
-                                    {% if total_linea > 0 %}
-                                    <span class="badge rounded-pill badge-notification rounded-pill bg-danger">{{ total_qty |floatformat:0 }}</span>
-                                    {% endif %}
-                                    <p><i class="fa fa-shopping-basket"></i></p >
-                                </a>
-                               </li>
-                               <li class="nav-item me-3 me-lg-1">
-                                <a class="nav-link" href="{% url 'vercarrito' %}">
-                                    {% if total_linea > 0 %}
-                                       <span class="badge rounded-pill badge-notification rounded-pill bg-danger">${{ total_compra|floatformat:2 }}</span>
-                                       {% endif %}
-                                       <p><i class="fas fa-money-bill"></i></p >
-                                </a>
+                                <p><i class="fas fa-tag"></i></p>
+                            </a>
+                        </li>
+                        <li class="nav-item me-3 me-lg-1">
+                            <a class="nav-link" href="{% url 'vercarrito' %}">
+                                {% if total_linea > 0 %}
+                                <span class="badge rounded-pill badge-notification rounded-pill bg-danger">{{ total_qty
+                                    |floatformat:0 }}</span>
+                                {% endif %}
+                                <p><i class="fa fa-shopping-basket"></i></p>
+                            </a>
+                        </li>
+                        <li class="nav-item me-3 me-lg-1">
+                            <a class="nav-link" href="{% url 'vercarrito' %}">
+                                {% if total_linea > 0 %}
+                                <span class="badge rounded-pill badge-notification rounded-pill bg-danger">${{
+                                    total_compra|floatformat:2 }}</span>
+                                {% endif %}
+                                <p><i class="fas fa-money-bill"></i></p>
+                            </a>
 
-                               </li>
-                               
-                                
-                                
-                                
-                                
-                             
-                        </div>
-                      
-                    </li>
+                        </li>
 
-                </ul>
+
+
+
+
+
+                </div>
+
+                </li>
+
+            </ul>
         </div>
         </div>
 

@@ -187,8 +187,7 @@ def historial_compra_cliente(request, numero_cliente):
 
     historial_compra = VtasDetalle.obtener_historial_de_compra_por_cliente(
         numero_cliente)
-    print(historial_compra)
-    print(numero_cliente)
+
     return render(request, 'lottoLuck/comprasctes.html', {'historial_compra': historial_compra})
 
 
@@ -201,6 +200,7 @@ def ventaSorteo(request):
         q = request.GET['q']
         numeroObjet = ventaSorteo.objects.all
         numeros = VtasSorteo.objects.all
+
     else:
         numeroObjet = VtasSorteo.objects.all()
         numeros = VtasSorteo.objects.all()
@@ -1047,10 +1047,13 @@ class ClientesListView(ListView):
 
         if search_query:
             # Filtra los clientes por nombre o cualquier otro campo relevante
+            # Utiliza el operador OR (|) para buscar en múltiples campos
             return Clientes.objects.filter(
+                Q(cedula__icontains=search_query) |  # Búsqueda por cédula
                 Q(nombre__icontains=search_query) |  # Búsqueda por nombre
                 Q(apellido__icontains=search_query) |  # Búsqueda por apellido
-                # Búsqueda por email u otros campos
+                Q(direccion__icontains=search_query) |  # Búsqueda por dirección
+                # Búsqueda por correo electrónico
                 Q(email__icontains=search_query)
             )
 
@@ -1065,6 +1068,14 @@ def lista_clientes(request):
     # Obtener el valor de búsqueda del formulario
     search_query = request.GET.get('search', '')
     # Search Query para la Busqueda Principal de la pagna princial
+    # Filtrar la lista de clientes en función del valor de búsqueda
+    clientes = Clientes.objects.filter(
+        Q(nombre__icontains=search_query) |  # Búsqueda por nombre
+        Q(apellido__icontains=search_query) |  # Búsqueda por apellido
+        Q(cedula__icontains=search_query) |  # Búsqueda por cédula
+        Q(direccion__icontains=search_query) |  # Búsqueda por dirección
+        Q(email__icontains=search_query)  # Búsqueda por correo electrónico
+    )
     if 'q' in request.GET:
         q = request.GET['q']
         clienteObjet = Clientes.objects.filter(nombre__icontains=q)
@@ -1235,10 +1246,136 @@ def agregar_numero_sorteados(request):
             return redirect('lista_numero_sorteados')
     return render(request, 'lottoluck/add_numero_sorteados.html', data)
 
+#
+
+#
+
+
+def ganadores(request, id_sorteo, fecha, premio1, premio2, premio3):
+
+    ganadores = []
+    from datetime import datetime
+    from django.utils.dateparse import parse_date
+
+    fecha_url = parse_date(fecha)
+    # Convierte la cadena de fecha en un objeto de fecha
+    fecha_url = datetime.strptime(fecha, '%Y%m%d').date()
+    sorteo = Sorteos.objects.get(descripcion=id_sorteo)
+    paga1 = sorteo.paga1
+    paga2 = sorteo.paga2
+    paga3 = sorteo.paga3
+
+    vtasSorteos_master = VtasSorteo.objects.filter(
+        id_sorteo=sorteo.id, fecha_sorteo=fecha_url)
+
+    # Luego, utiliza el id del sorteo para buscar en VtasDetalle
+    detalles_venta = VtasDetalle.objects.filter(
+        id_sorteo=sorteo.id, fecha_sorteo=fecha_url)
+
+    # Obtener los dos últimos dígitos de I_premio, II_premio y III_premio
+    numero1 = premio1
+    numero2 = premio2
+    numero3 = premio3
+
+    numeros_sorteo = [int(str(numero1)[-2:]), int(str(
+        numero2)[-2:]), int(str(numero3)[-2:])]
+
+    numeros_sorteo = [str(numero).zfill(2) for numero in numeros_sorteo]
+    print(numeros_sorteo)
+    # Filtrar los clientes y clasificarlos en categorías
+    ganadores_primero = ''
+    ganadores_segundo = ''
+    ganadores_tercero = ''
+   # Filtrar los clientes que tienen números coincidentes con los números sorteados
+    ganadores = VtasDetalle.objects.filter(
+        id_sorteo=sorteo.id,
+        fecha_sorteo=fecha_url,
+        numero__in=numeros_sorteo)
+
+    detalle_info = []  # A list to store detailed information for each 'VtasDetalle' object
+    # toma los ultimos 2 numero de los 4 :9999
+    pri_ = (str(numero1)[-2:]).zfill(2)
+    seg_ = (str(numero2)[-2:]).zfill(2)
+    ter_ = (str(numero3)[-2:]).zfill(2)
+    montoganado1 = Decimal("0.00")
+    montoganado2 = Decimal("0.00")
+    montoganado3 = Decimal("0.00")
+    totalganadore1 = Decimal("0.00")
+    totalganadore2 = Decimal("0.00")
+    totalganadore3 = Decimal("0.00")
+    # total de venta del sorteo
+    # resultados = VtasSorteo.get_totalventas_and_totalqty(
+    #    id_sorteo, fecha_url)
+
+    totalventa = ""  # resultados['totalventa']
+    totalqty = ''  # resultados['totalqty']
+
+    for detalle in ganadores:
+        numero_ = detalle.numero
+        numerox = str(numero_).zfill(2)
+        cantidad = detalle.cantidad
+        total = detalle.total
+        vtasSorteo = detalle.id_vtasorteo
+        if pri_ == numerox:
+            ganadores_primero = 'Ganó'
+            montoganado1 = paga1 * cantidad
+            totalganadore1 += montoganado1
+
+        if seg_ == numerox:
+            ganadores_segundo = 'Ganó'
+            montoganado2 = paga2 * cantidad
+            totalganadore2 += montoganado2
+        if ter_ == numerox:
+            ganadores_tercero = 'Ganó'
+            montoganado3 = paga3 * cantidad
+            totalganadore3 += montoganado3
+        # Access the related 'Clientes' object for the current 'VtasSorteo'
+        cliente = vtasSorteo.id_cliente
+
+        detalle_info.append({
+            'numero': numero_,
+            'cantidad': cantidad,
+            'total': total,
+            'I': ganadores_primero,
+            'II': ganadores_segundo,
+            'III': ganadores_tercero,
+            'premio1': montoganado1,
+            'premio2': montoganado2,
+            'premio3': montoganado3,
+            'vtasSorteo_info': {
+                'fecha_sorteo': vtasSorteo.fecha_sorteo,
+                'sorteo':  vtasSorteo.id_sorteo,
+                'vendedor': vtasSorteo.id_vendedor,
+                'ticket': vtasSorteo.transaction_id,
+                # Access other fields of 'VtasSorteo' as needed
+            },
+            'cliente_info': {
+                'nombre': cliente.get_full_name(),
+                'cedula': cliente.cedula,
+                'direccion': cliente.direccion,
+                'email': cliente.email,
+                'telefono': cliente.telefono,
+                # Access other fields of 'Clientes' as needed
+            }
+        })
+
+    context = {
+        'ganadores':  ganadores,
+        'detalle_info':  detalle_info,
+        'numeroGanadores': f': {pri_}, {seg_}, {ter_}',
+        'totalganado1': totalganadore1,
+        'totalganado2': totalganadore2,
+        'totalganado3': totalganadore3,
+        'totalpagosorteo': totalganadore1+totalganadore2+totalganadore3,
+        'totalventa': totalventa,
+        'totalqty': totalqty
+    }
+
+    return render(request, 'lottoluck/ganadores.html', context)
+
 
 def lista_numero_sorteados(request):
     numero_sorteados = NumeroSorteados.objects.all()
-    print('Aqui 1:', numero_sorteados)
     if request.method == 'POST':
         form = NumeroSorteadosForm(instance=numero_sorteados)
         return render(request, 'lottoluck/editar_numero_sorteados.html', {'form': form, 'numero_sorteados': numero_sorteados})

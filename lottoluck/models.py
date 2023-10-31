@@ -234,6 +234,9 @@ class NumeroSorteados(models.Model):
     def get_primero(self):
         return f'{self.I_premio}'
 
+    def idtiposorteo(self):
+        return f'{self.id_sorteo}'
+
     def get_letras(self):
         return f'{self.letras}'
 
@@ -249,8 +252,14 @@ class NumeroSorteados(models.Model):
     def get_tercero(self):
         return f'{self.III_premio}'
 
-    def fecha_sorteo2(self):
+    def fecha_sorteo3(self):
         return self.fecha.strftime('%d-%m-%Y')
+
+    def fecha5(self):
+        return self.fecha.strftime('%Y%m%d')
+
+    def fecha6(self):
+        return self.fecha.strftime('%Y%m%d')
 
     def fecha_sorteo2(self):
         meses = [
