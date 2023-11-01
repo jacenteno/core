@@ -3,6 +3,7 @@ from django import forms
 from phonenumber_field.formfields import PhoneNumberField  # Importa PhoneNumberField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
+from datetime import datetime
 
 from .models import Clientes, NumeroSorteados, Sorteos, Vendedor
 
@@ -161,55 +162,43 @@ class VendedorForm(forms.Form):
 
 
 class NumeroSorteadosForm(forms.ModelForm):
+
     class Meta:
         model = NumeroSorteados
         fields = ['id_sorteo', 'fecha', 'referencia', 'I_premio',
                   'letras', 'serie', 'folio', 'II_premio', 'III_premio']
-        labels= {
-                'id_sorteo':'Tipo de Sorteo',
-                'fecha':'Fecha del Sorteo',
-                 'referencia':'No.Sorteo de LNB',
-                 'I_premio':'Primer Premio',
-                 'II_premio':'Segundo Premio',
-                 'III_premio':'Tercer Premio',
-                 'letras':'Letra del Primer Premio',
-                 'serie':'No.Serie del Primer Premio',
-                 'folio':'No. Folio del Primer Premio',
-                 
-                }
-        widgets= {
-            'id_sorteo': forms.Select(
-                 attrs = {'class':'form-control'}
-             ),
-            'fecha': forms.DateInput(
-                 attrs = {'class':'form-control','placeholder': 'Vigencia del Sorteo'}
-             ),
-             'referencia': forms.TextInput(
-                 attrs = {'class':'form-control','placeholder': 'Ingrese No.Sorteo de LNB'}
-             ),
-             'I_premio': forms.TextInput(
-                 attrs = {'class':'form-control','placeholder': 'Primer Premio'}
-             ),
-              'II_premio': forms.TextInput(
-                 attrs = {'class':'form-control','placeholder': 'Segundo Premio'}
-             ),
-            'III_premio': forms.TextInput(
-                 attrs = {'class':'form-control','placeholder': 'Tercer Premio'}
-             ),
-            'letras': forms.TextInput(
-                 attrs = {'class':'form-control','placeholder': 'letras del Primer Premio'}
-             ),
-            'serie': forms.TextInput(
-                 attrs = {'class':'form-control','placeholder': 'No. de serie del  Primer Premio'}
-             ),
-            'folio': forms.TextInput(
-                 attrs = {'class':'form-control','placeholder': 'No. de Folio de Primer Premio'}
-             ),
+        labels = {
+            'id_sorteo': 'Tipo de Sorteo',
+            'fecha': 'Fecha del Sorteo',
+            'referencia': 'No.Sorteo de LNB',
+            'I_premio': 'Primer Premio',
+            'II_premio': 'Segundo Premio',
+            'III_premio': 'Tercer Premio',
+            'letras': 'Letra del Primer Premio',
+            'serie': 'No.Serie del Primer Premio',
+            'folio': 'No. Folio del Primer Premio',
         }
-               
-                
-            
+
+        widgets = {
+            'id_sorteo': forms.Select(attrs={'class': 'form-control'}),
+            'fecha': forms.DateInput(attrs={'class': 'form-control', 'placeholder': 'Vigencia del Sorteo', 'type': 'date'}),
+            'referencia': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingrese No.Sorteo de LNB'}),
+            'I_premio': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Primer Premio'}),
+            'II_premio': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Segundo Premio'}),
+            'III_premio': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Tercer Premio'}),
+            'letras': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'letras del Primer Premio'}),
+            'serie': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'No. de serie del Primer Premio'}),
+            'folio': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'No. de Folio de Primer Premio'}),
+        }
+
     def __init__(self, *args, **kwargs):
         super(NumeroSorteadosForm, self).__init__(*args, **kwargs)
-        self.fields['fecha'].widget = forms.DateInput(
-            attrs={'type': 'date', 'showOn': 'both'})
+        if 'instance' in kwargs:
+            # Verifica si se proporciona una instancia del modelo
+            instance = kwargs['instance']
+            if instance.fecha:
+                # Si el modelo tiene una fecha, establece ese valor como valor inicial
+                self.initial['fecha'] = instance.fecha.strftime('%Y-%m-%d')
+        else:
+            # Si no se proporciona una instancia (nuevo registro), establece la fecha actual como valor inicial
+            self.initial['fecha'] = datetime.now().strftime('%Y-%m-%d')

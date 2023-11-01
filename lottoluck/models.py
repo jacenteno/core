@@ -214,6 +214,8 @@ class NumeroSorteados(models.Model):
     id_sorteo = models.ForeignKey(
         'Sorteos', on_delete=models.PROTECT, verbose_name='tipo')
     fecha = models.DateField(default=datetime.now, verbose_name='Fecha')
+    # fecha = models.DateField(auto_now_add=True, verbose_name='Fecha')
+
     referencia = models.CharField(
         max_length=30, null=True, verbose_name='#LNB')
 
@@ -230,6 +232,12 @@ class NumeroSorteados(models.Model):
 
     # Campo creado automáticamente al crear un registro
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            # Si es un nuevo registro, actualiza la fecha
+            self.fecha = datetime.now()
+        super(NumeroSorteados, self).save(*args, **kwargs)
 
     def get_primero(self):
         return f'{self.I_premio}'

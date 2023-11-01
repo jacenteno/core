@@ -980,6 +980,7 @@ def contadores(request):
         'letra': letra,
         'myjson': elJson,
     }
+    """
     print(elJson)
     print("Total clientes:", cantidad_clientes)
     print("Total vendedores:", cantidad_vendedores)
@@ -987,6 +988,7 @@ def contadores(request):
     print("Total casaGrande:", cantidad_casag)
     print("Numero", numero)
     print("fecha", fecha)
+    """
     return render(request, 'lottoluck/daskboard.html',  contexto)
 
 
@@ -1204,6 +1206,8 @@ def generate_fake_clients(request):
 def editar_numero_sorteados(request, numero_sorteados_id):
     numero_sorteados = get_object_or_404(
         NumeroSorteados, id=numero_sorteados_id)
+    print(request.method)
+
     if request.method == 'POST':
         form = NumeroSorteadosForm(request.POST, instance=numero_sorteados)
         print("paso POST")
@@ -1222,6 +1226,7 @@ def editar_numero_sorteados(request, numero_sorteados_id):
         return render(request, 'lottoluck/editar_numero_sorteados.html', context)
     else:
         form = NumeroSorteadosForm(instance=numero_sorteados)
+
     context = {
         'form': form,
     }
@@ -1231,7 +1236,7 @@ def editar_numero_sorteados(request, numero_sorteados_id):
 
 def agregar_numero_sorteados(request):
     data = {
-        'form': NumeroSorteadosForm
+        'form': NumeroSorteadosForm()
     }
     if request.method == 'POST':
         form = NumeroSorteadosForm(data=request.POST)
@@ -1375,6 +1380,7 @@ def ganadores(request, id_sorteo, fecha, premio1, premio2, premio3):
 
 
 def lista_numero_sorteados(request):
+    from datetime import datetime
     numero_sorteados = NumeroSorteados.objects.all()
     if request.method == 'POST':
         form = NumeroSorteadosForm(instance=numero_sorteados)

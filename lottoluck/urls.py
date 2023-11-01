@@ -9,7 +9,7 @@ from django.views.decorators.http import require_http_methods
 urlpatterns = [
     #  path(''                                ,views.lista_clientes , name='lista_clientes'),
     path('lista_clientes/', views.lista_clientes, name='lista_clientes'),
-    path('contadores/', views.contadores, name='contadores'),
+    path('index/', views.contadores, name='contadores'),
     path('init_numeros/', views.init_numeros, name='init_numeros'),
     path('editar_cliente/<int:cliente_id>/',
          views.editar_cliente, name='editar_cliente'),
